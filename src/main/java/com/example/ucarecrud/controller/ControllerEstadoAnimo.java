@@ -22,7 +22,7 @@ public class ControllerEstadoAnimo {
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody EstadoAnimo estadoAnimo){
         serviceEstadoAnimo.create(estadoAnimo);
-        return ResponseEntity.ok("Estado de animo crado");
+        return ResponseEntity.ok("Estado de animo creado");
     }
 
     @PutMapping("/update")
