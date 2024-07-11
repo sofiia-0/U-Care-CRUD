@@ -1,11 +1,14 @@
 package com.example.ucarecrud.controller;
 
 import com.example.ucarecrud.modelo.Actividad;
+import com.example.ucarecrud.modelo.Estudiante;
 import com.example.ucarecrud.service.ActividadService;
+import com.example.ucarecrud.service.IServiceEstudiante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/actividad")
@@ -13,6 +16,10 @@ public class ActividadController {
 
     @Autowired
     private ActividadService actividadService;
+
+    @Autowired
+    private IServiceEstudiante estudianteServicio;
+
 
     @GetMapping("/all")
     public List<Actividad> obtenerTodas() {
@@ -30,9 +37,15 @@ public class ActividadController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Actividad> crearActividad(@RequestBody Actividad actividad) {
-        Actividad nuevaActividad = actividadService.guardarActividad(actividad);
-        return ResponseEntity.ok(nuevaActividad);
+    public ResponseEntity<Actividad> crearActividad(@RequestBody Actividad actividad, @RequestParam Integer CIF) {
+        Optional<Estudiante> estudiante = estudianteServicio.obtenerPorCif(CIF);
+        if(estudiante.isPresent()) {
+            actividad.setEstudiante(estudiante.get());
+            Actividad nuevaActividad = actividadService.guardarActividad(actividad);
+            return ResponseEntity.ok(nuevaActividad);
+        }else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/actualizar/{id}")

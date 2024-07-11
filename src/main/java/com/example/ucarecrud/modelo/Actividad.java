@@ -12,12 +12,15 @@ public class Actividad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
-    private String descripcion;
+    private String etiqueta;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaLimite;
     private boolean completada;
+
+    @ManyToOne
+    @JoinColumn(name = "estudiante_id", nullable = false)
+    private Estudiante estudiante;
 
     public Actividad() {
         this.fechaCreacion = LocalDateTime.now();
