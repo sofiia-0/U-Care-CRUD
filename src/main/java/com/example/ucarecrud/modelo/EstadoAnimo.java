@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Data;
 
-import jakarta.validation.constraints.Size; // Import correcto
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Data
